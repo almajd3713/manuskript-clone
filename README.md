@@ -7,12 +7,15 @@ An app similar to [Manuskript](https://www.theologeek.ch/manuskript/) that `shou
 none ;-;
 
 ### Todo:
-- [ ] Landing page
 - [ ] Basic Writing Forms
+- [ ] Landing page
 
 ### Goals:
-- [ ] Storyline viewer
+- [ ] Storyline viewer (flow chart)
 - [ ] Timeline
-- [ ] Character Insertion
+- [ ] Character Designer
+- [ ] Insertor for events/chars/etc..
+- [ ] Plot designer
+- [ ] Auth for storing data
   
   more later....
