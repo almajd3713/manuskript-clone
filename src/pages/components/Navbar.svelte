@@ -1,15 +1,9 @@
 
-<script lang="ts">
-  $: loc = window.location.href
-  import {createEventDispatcher} from "svelte"
-  const dispatch = createEventDispatcher()
-</script>
 
-
-<nav class:hidden={new URL(loc).pathname !== "/"}>
-  <a class="navBrand float-right" href="/alo">ManuKript</a>
+<nav>
+  <a class="navBrand float-right" href="/alo">ManuKriptus</a>
   <a href="/bruh" class="navItem">Bruh</a>
-  <a href="/galunga" class="navItem">galunga</a>
+  <a href="/projects" class="navItem">Projects</a>
   <a href="/pro" class="navItem">Pro !</a>
   <a class="navBrand float-left" style="opacity: 0; pointer-events: none;" href="/alo">ManuKript</a>
 </nav>
@@ -21,6 +15,7 @@
     line-height: 5rem;
     text-align: center;
     transition: all .3s;
+    margin-bottom: 2rem;
   }
 
   .navBrand, .navItem {

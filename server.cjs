@@ -1,0 +1,29 @@
+let app = require("express")()
+let cors = require("cors")
+let bodyParse = require("body-parser")
+let fs = require("fs")
+let api = fs.readFileSync("./api/api.json")
+let apiObj = JSON.parse(api)
+
+app.use(cors())
+app.use(bodyParse.urlencoded({extended: false}))
+app.use(bodyParse.json())
+
+app.get("/get", (req, res) => {
+  // res.sendFile(`${__dirname}/api/api.json`)
+  res.send(api)
+  console.log("GET request !")
+})
+
+app.post("/post", (req, res) => {
+  let data = req.body
+  apiObj = apiObj.map(obj => obj.id === data.id ? data : obj)
+  fs.writeFile("./api/api.json", JSON.stringify(apiObj), () => {
+    console.log("file has been saved")
+  })
+  res.statusCode = 200
+  res.end("yeee")
+  console.log("POST request !")
+})
+
+app.listen(3001, () => console.log("server has started !"))

@@ -1,4 +1,10 @@
-<h2>Page you're looking for does not exist !</h2>
+<script>
+
+import Navbar from "./components/Navbar.svelte";
+
+</script>
+<Navbar/>
+<h2>The Page you're looking for does not exist !</h2>
 
 <style lang=scss>
   h2 {
