@@ -1,22 +1,18 @@
 
 <script lang=ts>
 import type { ProjectInterface } from "src/types";
-import util from "../../util";
 
 
-import {projects} from "../../stores"
 import Error from "../Error.svelte";
 import Sidebar from "../components/Sidebar.svelte";
+import ProjectManager from "../components/ProjectManager.svelte";
 export let params: {id: string}
 let desiredProject: ProjectInterface
-$: {
-  desiredProject = $projects.find(proj => proj.id === params.id)
-}
 
 let genresAdd = e => {
   e.preventDefault()
   let newGenre = new FormData(e.target).get("genre") as string
-  if(newGenre.match(/\s/g)) return
+  if(newGenre.match(/\s/g)) return;
   desiredProject.metadata.genres = [...desiredProject.metadata.genres, newGenre]
   e.target.children[0].value = ""
 }
@@ -25,20 +21,10 @@ let genresDelete = e => {
   desiredProject.metadata.genres = desiredProject.metadata.genres.filter(genre => genre !== data)
 }
 
-let deactivateSave = false
 </script>
-<svelte:window on:keydown={e => {
-  if(e.ctrlKey && e.code === "KeyS") {
-    if(!deactivateSave) {
-      util.postData(desiredProject)
-      console.log("page has been saved")
-      deactivateSave = true
-      setTimeout(() => {
-        deactivateSave = false
-      }, 2000);
-    }
-  }
-}}/>
+
+<ProjectManager projectId={params.id} bind:desiredProject/>
+<Sidebar projectId={params.id}/>
 
 {#if desiredProject}
 <div class="infoContainer">
@@ -56,7 +42,7 @@ let deactivateSave = false
 {:else}
 <Error/>
 {/if}
-<Sidebar/>
+
 
 
 <style lang="scss">

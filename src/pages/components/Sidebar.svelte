@@ -1,11 +1,15 @@
 <script lang=ts>
 // @ts-ignore
-import { fly } from "svelte/transition";
+// import { fly } from "svelte/transition";
 
-let checked: boolean
+export let projectId: string
+let checked: boolean = false
+let checkboxClick = (e: MouseEvent) => {
+  e.stopPropagation()
+}
 </script>
 <svelte:window 
-  on:click={() => checked = false}
+  on:click={e => checked = false}
   on:keydown={e => {
     if(e.ctrlKey && e.code === "KeyS") {
       e.preventDefault()
@@ -13,29 +17,30 @@ let checked: boolean
   }}  
 />
 
-{#if checked}
-<!-- <nav class="sidebar" transition:fly={{x: -100, duration: 1000}}> -->
-<nav class="sidebar">
-  <a class="item" href="/">Home</a>
-  <a class="item" href="/scene">scene</a>
-  <a class="item" href="/timeline">timeline</a>
+<nav class="sidebar" data-checked={checked}>
+  <a class="item" href="/">Homepage</a>
+  <a class="item" href={`./${projectId}`}>Project Home</a>
+  <a class="item" href={`./${projectId}/summary`}>Summary</a>
+  <a class="item" href={`./${projectId}/scenes`}>Scenes</a>
+  <a class="item" href={`./${projectId}/timeline`}>Timeline</a>
 </nav>
-{/if}
 
 <input type="checkbox" style=display:none; id=sbToggle bind:checked>
-<label class="svgContainer float-left" for="sbToggle">
+<label class="svgContainer float-left" for="sbToggle" on:click={checkboxClick}>
   <img src="/src/assets/Hamburger_icon.svg" class=svg alt="hamburger">
 </label>
 
 <style lang=scss>
   .sidebar {
-    width: 20rem;
+    width: 0;
     height: 100vh;
     display: flex;
+    overflow: hidden;
+    transition: all .3s;
     flex-direction: column;
     position: absolute;
     top: 0;
-    padding-top: 4rem;
+    padding-top: 8rem;
     background-color: #333;
   }
   .item {
@@ -75,5 +80,17 @@ let checked: boolean
       box-shadow: 0 1rem 2rem rgba(black, .3);
     }
   }
+}
+#sbToggle:checked {
+  & + .svgContainer {
+  .svg {
+      filter: invert(1);
+    }
+    background-color: #333;
+    box-shadow: none;
+  }
+}
+[data-checked=true] {
+  width: 20rem;
 }
 </style>

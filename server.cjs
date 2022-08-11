@@ -10,7 +10,6 @@ app.use(bodyParse.urlencoded({extended: false}))
 app.use(bodyParse.json())
 
 app.get("/get", (req, res) => {
-  // res.sendFile(`${__dirname}/api/api.json`)
   res.send(api)
   console.log("GET request !")
 })
@@ -18,11 +17,12 @@ app.get("/get", (req, res) => {
 app.post("/post", (req, res) => {
   let data = req.body
   apiObj = apiObj.map(obj => obj.id === data.id ? data : obj)
-  fs.writeFile("./api/api.json", JSON.stringify(apiObj), () => {
+  api = JSON.stringify(apiObj)
+  fs.writeFile("./api/api.json", api, () => {
     console.log("file has been saved")
   })
   res.statusCode = 200
-  res.end("yeee")
+  res.send(api)
   console.log("POST request !")
 })
 
