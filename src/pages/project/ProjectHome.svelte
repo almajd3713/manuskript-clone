@@ -10,7 +10,6 @@ export let params: {id: string}
 let desiredProject: ProjectInterface
 
 let genresAdd = e => {
-  e.preventDefault()
   let newGenre = new FormData(e.target).get("genre") as string
   if(newGenre.match(/\s/g)) return;
   desiredProject.metadata.genres = [...desiredProject.metadata.genres, newGenre]
@@ -32,7 +31,7 @@ let genresDelete = e => {
   <div class="author">Author: <input bind:value={desiredProject.metadata.author}/></div>
   <div class="volume">Volume: <input bind:value={desiredProject.metadata.volume}/></div>
   <div class="genres">
-    <div class="genreInput">Genres: <form on:submit={genresAdd}><input name="genre" maxlength="15"></form></div>
+    <div class="genreInput">Genres: <form on:submit|preventDefault={genresAdd}><input name="genre" maxlength="15"></form></div>
     {#each desiredProject.metadata.genres as genre, i}
       <span class="genre" on:click={genresDelete}>{genre}</span>
       {#if i > 2 && (i + 1) % 4 === 0}<br/>{/if}

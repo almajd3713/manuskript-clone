@@ -1,6 +1,5 @@
 <script lang=ts>
   import Sidebar from "../components/Sidebar.svelte";
-  import { projects } from "../../stores";
   import type { ProjectInterface } from "src/types";
   import ProjectManager from "../components/ProjectManager.svelte";
   export let params: { id: string };

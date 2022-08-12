@@ -28,3 +28,6 @@ interface Metadata {
   volume?: string
   genres?: string[]
 }
+export interface Params {
+  id: string
+}

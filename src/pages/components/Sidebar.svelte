@@ -4,9 +4,6 @@
 
 export let projectId: string
 let checked: boolean = false
-let checkboxClick = (e: MouseEvent) => {
-  e.stopPropagation()
-}
 </script>
 <svelte:window 
   on:click={e => checked = false}
@@ -19,14 +16,15 @@ let checkboxClick = (e: MouseEvent) => {
 
 <nav class="sidebar" data-checked={checked}>
   <a class="item" href="/">Homepage</a>
-  <a class="item" href={`./${projectId}`}>Project Home</a>
-  <a class="item" href={`./${projectId}/summary`}>Summary</a>
-  <a class="item" href={`./${projectId}/scenes`}>Scenes</a>
-  <a class="item" href={`./${projectId}/timeline`}>Timeline</a>
+  <a class="item" href={`/projects/id/${projectId}`}>Project Home</a>
+  <a class="item" href={`/projects/id/${projectId}/summary`}>Summary</a>
+  <a class="item" href={`/projects/id/${projectId}/characters`}>Characters</a>
+  <a class="item" href={`/projects/id/${projectId}/scenes`}>Scenes</a>
+  <a class="item" href={`/projects/id/${projectId}/timeline`}>Timeline</a>
 </nav>
 
 <input type="checkbox" style=display:none; id=sbToggle bind:checked>
-<label class="svgContainer float-left" for="sbToggle" on:click={checkboxClick}>
+<label class="svgContainer float-left" for="sbToggle" on:click|stopPropagation>
   <img src="/src/assets/Hamburger_icon.svg" class=svg alt="hamburger">
 </label>
 
