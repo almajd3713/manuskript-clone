@@ -2,9 +2,12 @@
 import type { Params, ProjectInterface } from "src/types";
 import ProjectManager from "../components/ProjectManager.svelte";
 import Sidebar from "../components/Sidebar.svelte";
+import ColorPicker from "../components/single/ColorPicker.svelte";
+import Input from "../components/single/Input.svelte";
 import Error from "../Error.svelte";
 
 export let params: Params
+let selectedColor: string
 let desiredProject: ProjectInterface
 </script>
 
@@ -12,6 +15,7 @@ let desiredProject: ProjectInterface
 <Sidebar projectId={params.id}/>
 
 <div class="container">
+  {#if desiredProject}
   <div class="charList">
     <div class="charListHeading">Character List</div>
     <div class="charListArr">
@@ -21,10 +25,24 @@ let desiredProject: ProjectInterface
     </div>
   </div>
   <div class="charDisplay">
-    
+    <div>
+        <span>Name: </span> 
+        <Input type=input/>
+        <span>Goal: </span>
+        <Input type=textArea/>
+        
+    <div>
+    </div>
+    </div>
   </div>
+  {:else}
+  <Error/>
+  {/if}
 </div>
 
+<ColorPicker bind:selectedColor/>
+
+<svelte:window style="box-sizing: border-box"/>
 <style lang=scss>
   .container {
     background-color: #eee;
@@ -65,9 +83,18 @@ let desiredProject: ProjectInterface
       }
     }
     .charDisplay {
+      box-sizing: border-box;
       height: 100%;
       background-color: #ccc;
       border-radius: .5rem;
+      padding: 1rem;
+      font-size: 1.5rem;
+      gap: 1rem;
+      span {
+        display: inline-block;
+        vertical-align: top;
+        width: 5rem;
+      }
     }
   }
 </style>

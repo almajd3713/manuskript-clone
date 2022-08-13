@@ -15,8 +15,15 @@ interface Description {
   full?: string
 }
 interface Character {
-  name ?: string
-  motive ?: string
+  name: string
+  motive?: string
+  goal?: string
+  description?: string
+  backstory?: string
+  epiphany?: string
+  customization?: {
+    
+  }
 }
 interface Scene {
   name: string
