@@ -4,10 +4,12 @@ import util from "../../../util";
   import { onMount } from "svelte";
 
   export let selectedColor: string = ""
+  export let isShown = false
   let canvas: HTMLCanvasElement, hueCanvas: HTMLCanvasElement
+  let x: number, y: number, hueY: number
   let selectedColorText: HTMLElement
   $: {
-    if(selectedColor) {
+    if(selectedColor && selectedColorText) {
       selectedColorText.textContent = selectedColor
       selectedColorText.style.backgroundColor = selectedColor 
       selectedColorText.style.color = util.rgbIsLight(selectedColor) ? "black" : "white"
@@ -21,6 +23,7 @@ import util from "../../../util";
   onMount(() => wheelAssembler())
 
   let wheelAssembler = () => {
+    console.log("Aye")
     let ctx = canvas.getContext("2d")
     let height = canvas.height, width = canvas.width
     let draw = () => {
@@ -38,6 +41,7 @@ import util from "../../../util";
     }
 
     canvas.addEventListener("mousedown", e => {
+      e.stopPropagation()
       isMouseDown = true
       if(!firstColorSelect) {
         marker.style.display = "inline-block"
@@ -48,11 +52,12 @@ import util from "../../../util";
       if(isMouseDown) colorSelector(e) 
     })
     canvas.addEventListener("mouseup", e => {
+      e.stopPropagation()
       isMouseDown = false
       colorSelector(e)
     })
     let colorSelector = (e: MouseEvent) => {
-      let x = e.offsetX, y = e.offsetY
+      x = e.offsetX, y = e.offsetY
       let pixel = ctx.getImageData(x, y, 1, 1).data
       selectedColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`
       marker.style.top = `${y}px`
@@ -89,11 +94,11 @@ import util from "../../../util";
       hueSelector(e)
     })
     let hueSelector = (e: MouseEvent) => {
-      let y = e.offsetY
-      let pixel = hueCtx.getImageData(10, y, 1, 1).data
+      hueY = e.offsetY
+      let pixel = hueCtx.getImageData(10, hueY, 1, 1).data
       hueColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`
       draw()
-      markerHue.style.top = `${y}px`
+      markerHue.style.top = `${hueY}px`
       let newColor = ctx.getImageData(marker.offsetTop, marker.offsetLeft, 1, 1).data
       selectedColor = `rgb(${newColor[0]}, ${newColor[1]}, ${newColor[2]})`
     }
@@ -106,7 +111,7 @@ import util from "../../../util";
   isMouseDown = false
   isMouseDownHue = false
 }}/>
-<div class="container">
+<div class="container" data-displayed={isShown}>
   <div class="heading">
     Selected Color: <div class="color" bind:this={selectedColorText}></div>
   </div>
@@ -122,10 +127,14 @@ import util from "../../../util";
 
 <style lang=scss>
   .container {
+    display: none;
     border: 1px solid black;
     padding: 1rem;
     width: 32rem;
     border-radius: 1rem;
+    position: absolute;
+    transform: translateX(-50%);
+    background-color: white;
   }
   .heading {
     font-size: 2rem;
@@ -159,4 +168,8 @@ import util from "../../../util";
     left: 0;
     display: none;
   }
+
+[data-displayed=true] {
+  display: block;
+}
 </style>

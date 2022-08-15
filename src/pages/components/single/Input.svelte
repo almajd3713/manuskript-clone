@@ -2,19 +2,20 @@
 <script lang="ts">
 export let value
 export let type: "input" | "textArea"
-export let lines: number
+export let lines: string = "1"
+export let width: string = `100%`
 </script>
 
 {#if type === "input"}
-<input type="text" bind:value>
+<input type="text" bind:value style="width: {width}">
 {:else if type === "textArea"}
-<textarea bind:value spellcheck=false style="height: {lines * 2}rem"></textarea>
+<textarea bind:value spellcheck=false style="height: {parseInt(lines) * 2}rem"></textarea>
 {/if}
 
 <style>
   * {
     margin-bottom: 1rem;
-    width: 85%;
+    width: 80%;
   }
   input {
     height: 3rem;
@@ -23,6 +24,7 @@ export let lines: number
     border-radius: 1rem;
     font-size: 2rem;
     padding: 0 1rem;
+    margin-right: 2rem;
   }
   textarea {
     resize: none;

@@ -30,6 +30,7 @@ let checked: boolean = false
 
 <style lang=scss>
   .sidebar {
+    z-index: 100;
     width: 0;
     height: 100vh;
     display: flex;

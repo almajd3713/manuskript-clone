@@ -5,6 +5,7 @@
 
   export let projectId: string
   export let desiredProject: ProjectInterface
+  export let callback: () => void = () => {}
   let warningDiv: HTMLElement
   $: {
     desiredProject = $projects.find(proj => proj.id === projectId)
@@ -19,7 +20,7 @@
 <svelte:window on:keydown={e => {
   if(e.ctrlKey && e.code === "KeyS") {
     if(!deactivateSave) {
-      util.postData(desiredProject)
+      util.postData(desiredProject, callback)
       deactivateSave = true
       warningDiv.style.opacity = "1"
       setTimeout(() => {
@@ -45,5 +46,6 @@
     bottom: 10%;
     left: 0;
     right: 0;
+    z-index: 100;
   }
 </style>

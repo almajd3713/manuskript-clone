@@ -15,12 +15,14 @@ interface Description {
   full?: string
 }
 interface Character {
+  id: number
   name: string
   motive?: string
   goal?: string
   description?: string
   backstory?: string
   epiphany?: string
+  color?: string
   customization?: {
     
   }

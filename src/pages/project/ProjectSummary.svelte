@@ -113,7 +113,7 @@
   .textArea {
     display: none;
   }
-  [data-displayed="true"] {
+  [data-displayed=true] {
     display: block;
   }
 </style>

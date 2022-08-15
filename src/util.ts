@@ -9,7 +9,7 @@ let util = {
     }).then(res => res.json())
     projects.set(data)
   },
-  postData: async(newObject: ProjectInterface) => {
+  postData: async(newObject: ProjectInterface, callback: () => void) => {
     let data: ProjectInterface[] = await fetch("http://localhost:3001/post", {
       method: "POST",
       body: JSON.stringify(newObject),
@@ -18,6 +18,7 @@ let util = {
       }
     }).then(res => res.json())
     projects.set(data)
+    callback()
   },
   rgbIsLight: (color: string) => {
     var c = color.match(/\d+/g).map(z => ((+z < 16) ? '0' : '') + (+z).toString(16)).join('');
@@ -28,6 +29,9 @@ let util = {
 
     var luma = 0.2126 * r + 0.7152 * g + 0.0722 * b; // per ITU-R BT.709
    return luma >= 80
+  },
+  createId: () => {
+    return crypto.getRandomValues(new Uint32Array(1))[0]
   }
 }
 export default util
